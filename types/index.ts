@@ -57,6 +57,8 @@ export interface Food {
   is_favorite: boolean;
   category: FoodCategory;
   created_at: number;
+  updated_at?: number;
+  deleted?: boolean;
 }
 
 export interface LogEntry {
@@ -66,6 +68,8 @@ export interface LogEntry {
   food_id: string;
   quantity: number;
   created_at: number;
+  updated_at?: number;
+  deleted?: boolean;
 }
 
 export interface DailyTotals {

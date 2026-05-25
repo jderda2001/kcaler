@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { ArrowLeft, Check } from 'lucide-react';
+import { SyncStatusCard } from '@/components/SyncStatusCard';
 
 export default function KontoPage() {
   const { data: session } = useSession();
@@ -26,6 +27,8 @@ export default function KontoPage() {
         <Row label="Imię" value={user?.name ?? '—'} />
         <Row label="ID konta" value={user?.id ?? '—'} mono />
       </div>
+
+      <SyncStatusCard />
 
       <p className="text-muted-foreground text-xs">
         Zmiana emaila i hasła pojawi się w przyszłej wersji.

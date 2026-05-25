@@ -149,6 +149,8 @@ export const foods = pgTable('foods', {
   isFavorite: boolean('is_favorite').notNull().default(false),
   category: foodCategoryEnum('category').notNull(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow().notNull(),
+  deleted: boolean('deleted').notNull().default(false),
 });
 
 export const logEntries = pgTable('log_entries', {
@@ -163,4 +165,6 @@ export const logEntries = pgTable('log_entries', {
     .references(() => foods.id, { onDelete: 'cascade' }),
   quantity: doublePrecision('quantity').notNull(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow().notNull(),
+  deleted: boolean('deleted').notNull().default(false),
 });

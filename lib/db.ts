@@ -1,5 +1,12 @@
 import Dexie, { type Table } from 'dexie';
 import type { DailyTotals, Food, LogEntry, MealType, UserProfile } from '@/types';
+import {
+  queueFoodDelete,
+  queueFoodUpsert,
+  queueLogDelete,
+  queueLogUpsert,
+  queueProfile,
+} from '@/lib/sync';
 
 class AppDB extends Dexie {
   profile!: Table<UserProfile, string>;
@@ -17,6 +24,11 @@ class AppDB extends Dexie {
       profile: 'id',
       foods: 'id, name, category, is_custom, is_favorite, created_at',
       logs: 'id, date, meal, food_id, created_at, [date+meal]',
+    });
+    this.version(3).stores({
+      profile: 'id',
+      foods: 'id, name, category, is_custom, is_favorite, created_at, updated_at, deleted',
+      logs: 'id, date, meal, food_id, created_at, updated_at, deleted, [date+meal]',
     });
   }
 }
@@ -39,12 +51,14 @@ export async function saveProfile(
 ): Promise<void> {
   const now = Date.now();
   const existing = await db.profile.get('singleton');
-  await db.profile.put({
+  const next: UserProfile = {
     ...profile,
     id: 'singleton',
     created_at: existing?.created_at ?? profile.created_at ?? now,
     updated_at: now,
-  });
+  };
+  await db.profile.put(next);
+  queueProfile(next);
 }
 
 export async function getDailyLog(date: string): Promise<LogEntry[]> {
@@ -110,7 +124,10 @@ export async function getDailyLogByMeal(
 export async function toggleFavorite(foodId: string): Promise<void> {
   const food = await db.foods.get(foodId);
   if (!food) return;
-  await db.foods.update(foodId, { is_favorite: !food.is_favorite });
+  const now = Date.now();
+  const next: Food = { ...food, is_favorite: !food.is_favorite, updated_at: now };
+  await db.foods.put(next);
+  if (next.is_custom) queueFoodUpsert(next);
 }
 
 export async function getRecentFoods(limit = 20): Promise<Food[]> {
@@ -162,21 +179,28 @@ export async function searchFoods(query: string, limit = 50): Promise<Food[]> {
 }
 
 export async function addLogEntry(input: Omit<LogEntry, 'id' | 'created_at'>): Promise<string> {
+  const now = Date.now();
   const entry: LogEntry = {
     ...input,
     id: crypto.randomUUID(),
-    created_at: Date.now(),
+    created_at: now,
+    updated_at: now,
   };
   await db.logs.add(entry);
+  queueLogUpsert(entry);
   return entry.id;
 }
 
 export async function deleteLogEntry(id: string): Promise<void> {
   await db.logs.delete(id);
+  queueLogDelete(id);
 }
 
 export async function updateLogEntry(id: string, patch: Partial<LogEntry>): Promise<void> {
-  await db.logs.update(id, patch);
+  const now = Date.now();
+  await db.logs.update(id, { ...patch, updated_at: now });
+  const updated = await db.logs.get(id);
+  if (updated) queueLogUpsert(updated);
 }
 
 export async function addCustomFood(
@@ -184,19 +208,29 @@ export async function addCustomFood(
     is_favorite?: boolean;
   },
 ): Promise<string> {
+  const now = Date.now();
   const food: Food = {
     ...input,
     id: crypto.randomUUID(),
-    created_at: Date.now(),
+    created_at: now,
+    updated_at: now,
     is_custom: true,
     is_favorite: input.is_favorite ?? false,
   };
   await db.foods.add(food);
+  queueFoodUpsert(food);
   return food.id;
 }
 
 export async function getFood(id: string): Promise<Food | undefined> {
   return db.foods.get(id);
+}
+
+export async function deleteCustomFood(id: string): Promise<void> {
+  const food = await db.foods.get(id);
+  if (!food) return;
+  await db.foods.delete(id);
+  if (food.is_custom) queueFoodDelete(id);
 }
 
 export async function clearAllData(): Promise<void> {
@@ -215,8 +249,10 @@ export async function copyLogs(fromDate: string, toDate: string): Promise<number
     food_id: e.food_id,
     quantity: e.quantity,
     created_at: now + i,
+    updated_at: now + i,
   }));
   await db.logs.bulkAdd(copies);
+  copies.forEach(queueLogUpsert);
   return copies.length;
 }
 

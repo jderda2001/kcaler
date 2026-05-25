@@ -7,7 +7,7 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import { ArrowLeft, Star, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from '@/components/ui/sheet';
-import { db, getFood, toggleFavorite } from '@/lib/db';
+import { db, deleteCustomFood, getFood, toggleFavorite } from '@/lib/db';
 import { formatGrams, formatKcal, netCarbs } from '@/lib/macros';
 import { cn } from '@/lib/utils';
 import type { Food, LogEntry } from '@/types';
@@ -46,7 +46,7 @@ export default function FoodDetailPage({ params }: { params: Promise<{ id: strin
   );
 
   async function handleDelete() {
-    await db.foods.delete(id);
+    await deleteCustomFood(id);
     router.replace('/');
   }
 
