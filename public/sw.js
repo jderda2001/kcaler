@@ -1,5 +1,5 @@
 // Kcal Tracker service worker — minimal offline-first
-const VERSION = 'v1';
+const VERSION = 'v2';
 const STATIC_CACHE = `static-${VERSION}`;
 const RUNTIME_CACHE = `runtime-${VERSION}`;
 

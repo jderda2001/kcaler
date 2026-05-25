@@ -11,6 +11,7 @@ import {
   SheetDescription,
   SheetTitle,
 } from '@/components/ui/sheet';
+import { clearAllData } from '@/lib/db';
 
 export default function SettingsPage() {
   const { data: session } = useSession();
@@ -20,6 +21,16 @@ export default function SettingsPage() {
   const initial = (user?.name?.[0] ?? user?.email?.[0] ?? '?').toUpperCase();
 
   async function handleSignOut() {
+    try {
+      if (typeof localStorage !== 'undefined') {
+        localStorage.removeItem('kcal:last-user');
+        localStorage.removeItem('kcal:last-sync-ms');
+        localStorage.removeItem('kcal:sync-status');
+      }
+      await clearAllData();
+    } catch (e) {
+      console.warn('logout cleanup failed', e);
+    }
     await signOut({ callbackUrl: '/login' });
   }
 

@@ -11,7 +11,7 @@ import { LogEntryDetailSheet } from '@/components/LogEntryDetailSheet';
 import type { MealEntry } from '@/hooks/useDailyDashboard';
 import { useDailyDashboard } from '@/hooks/useDailyDashboard';
 import { useStreak } from '@/hooks/useStreak';
-import { MEAL_LABEL, MEAL_ORDER, mealForHour } from '@/lib/i18n';
+import { MEAL_LABEL_GENITIVE, MEAL_ORDER, mealForHour } from '@/lib/i18n';
 import { formatGrams, formatKcal } from '@/lib/macros';
 import { cn } from '@/lib/utils';
 import type { MealType } from '@/types';
@@ -147,7 +147,7 @@ export default function DashboardPage() {
           >
             <div>
               <p className="text-sm font-semibold">
-                Zacznij od {MEAL_LABEL[nextMealNow].toLowerCase()}
+                Zacznij od {MEAL_LABEL_GENITIVE[nextMealNow]}
               </p>
               <p className="text-muted-foreground mt-0.5 text-xs">
                 Stuknij, żeby dodać pierwszy produkt

@@ -53,6 +53,9 @@ export function LogEntryDetailSheet({
       setMeal(entry.meal);
       setSaving(false);
       setDeleteState('idle');
+    } else if (!open) {
+      // ensure inner confirm doesn't linger when outer closes externally
+      setDeleteState('idle');
     }
   }, [open, entry]);
 
@@ -78,15 +81,16 @@ export function LogEntryDetailSheet({
 
   async function handleDelete() {
     if (!entry || !food) return;
+    const foodName = food.name; // capture before parent re-renders with null props
     try {
       await deleteLogEntry(entry.id);
-      const removed = food.kcal * (entry.quantity / 100);
+      setDeleteState('idle');
       onDeleted?.();
       onOpenChange(false);
-      toast(`Usunięto ${food.name}`, { type: 'info' });
-      void removed;
+      toast(`Usunięto ${foodName}`, { type: 'info' });
     } catch (e) {
       console.error(e);
+      setDeleteState('idle');
     }
   }
 

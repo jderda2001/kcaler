@@ -1,37 +1,15 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import { syncDown, syncUp } from '@/lib/sync';
-
-const LAST_USER_KEY = 'kcal:last-user';
+import { syncDown } from '@/lib/sync';
 
 /**
- * Drives initial pull on login + pull on focus / online events.
- * Mount once near the root of the (app) layout.
+ * Once initial pull is done in ProfileGate, SyncClient handles refresh-on-focus
+ * and online events to keep data fresh without page reloads.
  */
 export function SyncClient() {
-  const { data: session, status } = useSession();
-  const claimedRef = useRef(false);
-
-  useEffect(() => {
-    if (status !== 'authenticated' || !session?.user?.id) return;
-    const userId = session.user.id;
-
-    const lastUser = typeof localStorage !== 'undefined' ? localStorage.getItem(LAST_USER_KEY) : null;
-
-    (async () => {
-      if (lastUser !== userId) {
-        // First time this user logs in on this device — claim local data and pull server state.
-        if (!claimedRef.current) {
-          claimedRef.current = true;
-          await syncUp();
-        }
-        if (typeof localStorage !== 'undefined') localStorage.setItem(LAST_USER_KEY, userId);
-      }
-      await syncDown();
-    })().catch((e) => console.warn('initial sync failed', e));
-  }, [status, session?.user?.id]);
+  const { status } = useSession();
 
   useEffect(() => {
     if (status !== 'authenticated') return;
