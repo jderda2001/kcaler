@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import { ServiceWorkerRegister } from '@/components/ServiceWorkerRegister';
 import { ToastProvider } from '@/components/Toaster';
 import { Providers } from '@/components/Providers';
+import { ViewportTracker } from '@/components/ViewportTracker';
 import './globals.css';
 
 const inter = Inter({
@@ -38,6 +39,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
+  interactiveWidget: 'resizes-content',
 };
 
 export default function RootLayout({
@@ -48,6 +50,7 @@ export default function RootLayout({
   return (
     <html lang="pl" className={`${inter.variable} h-full`}>
       <body className="bg-background text-foreground min-h-full antialiased">
+        <ViewportTracker />
         <Providers>
           <ServiceWorkerRegister />
           <ToastProvider>

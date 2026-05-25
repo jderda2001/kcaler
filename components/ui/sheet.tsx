@@ -90,12 +90,17 @@ export const SheetContent = React.forwardRef<
     }
   }
 
-  const transformStyle = draggable && dragY > 0
+  const fullHeightStyle: React.CSSProperties =
+    side === 'full' ? { height: 'var(--vvh, 100dvh)' } : {};
+
+  const transformStyle: React.CSSProperties = draggable && dragY > 0
     ? {
         transform: `translate(-50%, ${dragY}px)`,
         transition: dragging ? 'none' : 'transform 300ms cubic-bezier(0.2, 0.8, 0.2, 1)',
       }
-    : undefined;
+    : {};
+
+  const mergedStyle = { ...fullHeightStyle, ...transformStyle };
 
   return (
     <SheetPortal>
@@ -107,10 +112,10 @@ export const SheetContent = React.forwardRef<
           side === 'bottom' &&
             'bottom-0 rounded-t-2xl border-t border-border data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom duration-300',
           side === 'full' &&
-            'top-0 bottom-0 h-dvh max-h-dvh data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom duration-300',
+            'top-0 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom duration-300',
           className,
         )}
-        style={transformStyle}
+        style={mergedStyle}
         {...props}
       >
         {side === 'bottom' && (
