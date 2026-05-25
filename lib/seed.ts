@@ -1,0 +1,237 @@
+import { db } from '@/lib/db';
+import type { Food } from '@/types';
+
+type SeedFood = Omit<Food, 'id' | 'created_at' | 'is_custom' | 'is_favorite'>;
+
+export const SEED_FOODS: SeedFood[] = [
+  // PIECZYWO
+  { name: 'Chleb pszenny', unit: 'g', kcal: 250, fat: 1.5, protein: 8, carbs: 50, fiber: 2.5, category: 'pieczywo' },
+  { name: 'Chleb żytni razowy', unit: 'g', kcal: 230, fat: 1.5, protein: 7, carbs: 45, fiber: 6, category: 'pieczywo' },
+  { name: 'Chleb graham', unit: 'g', kcal: 245, fat: 1.5, protein: 9, carbs: 47, fiber: 5, category: 'pieczywo' },
+  { name: 'Bułka kajzerka', unit: 'g', kcal: 280, fat: 2, protein: 9, carbs: 55, fiber: 2, category: 'pieczywo' },
+  { name: 'Bułka grahamka', unit: 'g', kcal: 250, fat: 2, protein: 9, carbs: 48, fiber: 5, category: 'pieczywo' },
+  { name: 'Tortilla pszenna', unit: 'g', kcal: 310, fat: 8, protein: 8, carbs: 50, fiber: 3, category: 'pieczywo' },
+  { name: 'Bagietka francuska', unit: 'g', kcal: 270, fat: 1, protein: 9, carbs: 56, fiber: 2.5, category: 'pieczywo' },
+  { name: 'Pumpernikiel', unit: 'g', kcal: 200, fat: 1, protein: 7, carbs: 41, fiber: 7, category: 'pieczywo' },
+
+  // NABIAŁ
+  { name: 'Mleko 2%', unit: 'ml', kcal: 50, fat: 2, protein: 3.4, carbs: 4.8, fiber: 0, category: 'nabial' },
+  { name: 'Mleko 3,2%', unit: 'ml', kcal: 62, fat: 3.2, protein: 3.4, carbs: 4.8, fiber: 0, category: 'nabial' },
+  { name: 'Mleko 0,5%', unit: 'ml', kcal: 36, fat: 0.5, protein: 3.4, carbs: 4.8, fiber: 0, category: 'nabial' },
+  { name: 'Jogurt naturalny 2%', unit: 'g', kcal: 60, fat: 2, protein: 4.5, carbs: 6, fiber: 0, category: 'nabial' },
+  { name: 'Jogurt grecki 10%', unit: 'g', kcal: 130, fat: 10, protein: 5, carbs: 4, fiber: 0, category: 'nabial' },
+  { name: 'Jogurt skyr naturalny', unit: 'g', kcal: 65, fat: 0.2, protein: 11, carbs: 4, fiber: 0, category: 'nabial' },
+  { name: 'Kefir 2%', unit: 'ml', kcal: 50, fat: 2, protein: 3.3, carbs: 4.5, fiber: 0, category: 'nabial' },
+  { name: 'Maślanka 1%', unit: 'ml', kcal: 40, fat: 1, protein: 3.4, carbs: 4.6, fiber: 0, category: 'nabial' },
+  { name: 'Twaróg półtłusty', unit: 'g', kcal: 130, fat: 5, protein: 18, carbs: 3, fiber: 0, category: 'nabial' },
+  { name: 'Twaróg chudy', unit: 'g', kcal: 95, fat: 0.5, protein: 19, carbs: 3.5, fiber: 0, category: 'nabial' },
+  { name: 'Serek wiejski', unit: 'g', kcal: 100, fat: 4, protein: 12, carbs: 3, fiber: 0, category: 'nabial' },
+  { name: 'Ser żółty Gouda', unit: 'g', kcal: 360, fat: 27, protein: 25, carbs: 2, fiber: 0, category: 'nabial' },
+  { name: 'Ser feta', unit: 'g', kcal: 265, fat: 21, protein: 14, carbs: 4, fiber: 0, category: 'nabial' },
+  { name: 'Ser mozzarella', unit: 'g', kcal: 280, fat: 22, protein: 18, carbs: 3, fiber: 0, category: 'nabial' },
+  { name: 'Ser pleśniowy Brie', unit: 'g', kcal: 335, fat: 28, protein: 21, carbs: 0.5, fiber: 0, category: 'nabial' },
+  { name: 'Masło 82%', unit: 'g', kcal: 740, fat: 82, protein: 0.8, carbs: 0.7, fiber: 0, category: 'nabial' },
+  { name: 'Śmietana 18%', unit: 'ml', kcal: 190, fat: 18, protein: 2.5, carbs: 4, fiber: 0, category: 'nabial' },
+  { name: 'Śmietana 30%', unit: 'ml', kcal: 290, fat: 30, protein: 2.4, carbs: 3.5, fiber: 0, category: 'nabial' },
+
+  // JAJA
+  { name: 'Jajko kurze (całe)', unit: 'g', kcal: 155, fat: 11, protein: 13, carbs: 1.1, fiber: 0, category: 'jaja' },
+  { name: 'Białko jajka', unit: 'g', kcal: 52, fat: 0.2, protein: 11, carbs: 0.7, fiber: 0, category: 'jaja' },
+  { name: 'Żółtko jajka', unit: 'g', kcal: 320, fat: 27, protein: 16, carbs: 3.6, fiber: 0, category: 'jaja' },
+
+  // MIĘSO
+  { name: 'Pierś z kurczaka (surowa)', unit: 'g', kcal: 110, fat: 1.5, protein: 23, carbs: 0, fiber: 0, category: 'mieso' },
+  { name: 'Pierś z indyka (surowa)', unit: 'g', kcal: 105, fat: 1, protein: 24, carbs: 0, fiber: 0, category: 'mieso' },
+  { name: 'Udko z kurczaka bez skóry', unit: 'g', kcal: 165, fat: 9, protein: 20, carbs: 0, fiber: 0, category: 'mieso' },
+  { name: 'Schab wieprzowy', unit: 'g', kcal: 145, fat: 5, protein: 23, carbs: 0, fiber: 0, category: 'mieso' },
+  { name: 'Karkówka wieprzowa', unit: 'g', kcal: 245, fat: 19, protein: 17, carbs: 0, fiber: 0, category: 'mieso' },
+  { name: 'Łopatka wieprzowa', unit: 'g', kcal: 210, fat: 16, protein: 17, carbs: 0, fiber: 0, category: 'mieso' },
+  { name: 'Wołowina mielona 5%', unit: 'g', kcal: 137, fat: 5, protein: 22, carbs: 0, fiber: 0, category: 'mieso' },
+  { name: 'Polędwica wołowa', unit: 'g', kcal: 130, fat: 4, protein: 22, carbs: 0, fiber: 0, category: 'mieso' },
+  { name: 'Szynka konserwowa', unit: 'g', kcal: 110, fat: 3, protein: 18, carbs: 1, fiber: 0, category: 'mieso' },
+  { name: 'Szynka z indyka', unit: 'g', kcal: 105, fat: 2, protein: 18, carbs: 1.5, fiber: 0, category: 'mieso' },
+  { name: 'Parówki drobiowe', unit: 'g', kcal: 220, fat: 18, protein: 12, carbs: 2, fiber: 0, category: 'mieso' },
+  { name: 'Kabanos', unit: 'g', kcal: 460, fat: 40, protein: 24, carbs: 0, fiber: 0, category: 'mieso' },
+  { name: 'Kiełbasa śląska', unit: 'g', kcal: 290, fat: 25, protein: 14, carbs: 1, fiber: 0, category: 'mieso' },
+  { name: 'Boczek wędzony', unit: 'g', kcal: 540, fat: 56, protein: 9, carbs: 0, fiber: 0, category: 'mieso' },
+  { name: 'Pasztet drobiowy', unit: 'g', kcal: 280, fat: 24, protein: 12, carbs: 3, fiber: 0, category: 'mieso' },
+
+  // RYBY
+  { name: 'Łosoś (surowy)', unit: 'g', kcal: 210, fat: 13, protein: 22, carbs: 0, fiber: 0, category: 'ryby' },
+  { name: 'Łosoś wędzony', unit: 'g', kcal: 200, fat: 12, protein: 22, carbs: 0, fiber: 0, category: 'ryby' },
+  { name: 'Tuńczyk w sosie własnym', unit: 'g', kcal: 110, fat: 1, protein: 25, carbs: 0, fiber: 0, category: 'ryby' },
+  { name: 'Tuńczyk w oleju', unit: 'g', kcal: 195, fat: 13, protein: 22, carbs: 0, fiber: 0, category: 'ryby' },
+  { name: 'Dorsz (surowy)', unit: 'g', kcal: 82, fat: 0.7, protein: 18, carbs: 0, fiber: 0, category: 'ryby' },
+  { name: 'Pstrąg (surowy)', unit: 'g', kcal: 119, fat: 3.5, protein: 21, carbs: 0, fiber: 0, category: 'ryby' },
+  { name: 'Sandacz (surowy)', unit: 'g', kcal: 84, fat: 0.7, protein: 19, carbs: 0, fiber: 0, category: 'ryby' },
+  { name: 'Makrela wędzona', unit: 'g', kcal: 305, fat: 25, protein: 19, carbs: 0, fiber: 0, category: 'ryby' },
+  { name: 'Śledź w oleju', unit: 'g', kcal: 280, fat: 24, protein: 15, carbs: 0, fiber: 0, category: 'ryby' },
+  { name: 'Krewetki (gotowane)', unit: 'g', kcal: 99, fat: 1.7, protein: 21, carbs: 0, fiber: 0, category: 'ryby' },
+
+  // WARZYWA
+  { name: 'Ziemniak (gotowany)', unit: 'g', kcal: 87, fat: 0.1, protein: 1.9, carbs: 20, fiber: 1.8, category: 'warzywa' },
+  { name: 'Bataty (gotowane)', unit: 'g', kcal: 90, fat: 0.2, protein: 2, carbs: 20.7, fiber: 3.3, category: 'warzywa' },
+  { name: 'Marchew', unit: 'g', kcal: 41, fat: 0.2, protein: 0.9, carbs: 9.6, fiber: 2.8, category: 'warzywa' },
+  { name: 'Brokuł', unit: 'g', kcal: 34, fat: 0.4, protein: 2.8, carbs: 6.6, fiber: 2.6, category: 'warzywa' },
+  { name: 'Pomidor', unit: 'g', kcal: 18, fat: 0.2, protein: 0.9, carbs: 3.9, fiber: 1.2, category: 'warzywa' },
+  { name: 'Pomidory koktajlowe', unit: 'g', kcal: 22, fat: 0.3, protein: 1, carbs: 4.6, fiber: 1.4, category: 'warzywa' },
+  { name: 'Ogórek', unit: 'g', kcal: 15, fat: 0.1, protein: 0.7, carbs: 3.6, fiber: 0.5, category: 'warzywa' },
+  { name: 'Ogórek kiszony', unit: 'g', kcal: 12, fat: 0.1, protein: 0.6, carbs: 2.3, fiber: 1, category: 'warzywa' },
+  { name: 'Papryka czerwona', unit: 'g', kcal: 31, fat: 0.3, protein: 1, carbs: 6, fiber: 2.1, category: 'warzywa' },
+  { name: 'Papryka zielona', unit: 'g', kcal: 20, fat: 0.2, protein: 0.9, carbs: 4.6, fiber: 1.7, category: 'warzywa' },
+  { name: 'Cebula', unit: 'g', kcal: 40, fat: 0.1, protein: 1.1, carbs: 9.3, fiber: 1.7, category: 'warzywa' },
+  { name: 'Czosnek', unit: 'g', kcal: 149, fat: 0.5, protein: 6.4, carbs: 33, fiber: 2.1, category: 'warzywa' },
+  { name: 'Sałata lodowa', unit: 'g', kcal: 14, fat: 0.1, protein: 0.9, carbs: 3, fiber: 1.2, category: 'warzywa' },
+  { name: 'Rukola', unit: 'g', kcal: 25, fat: 0.7, protein: 2.6, carbs: 3.7, fiber: 1.6, category: 'warzywa' },
+  { name: 'Kapusta biała', unit: 'g', kcal: 25, fat: 0.1, protein: 1.3, carbs: 5.8, fiber: 2.5, category: 'warzywa' },
+  { name: 'Kapusta kiszona', unit: 'g', kcal: 19, fat: 0.1, protein: 1, carbs: 4, fiber: 2.9, category: 'warzywa' },
+  { name: 'Szpinak', unit: 'g', kcal: 23, fat: 0.4, protein: 2.9, carbs: 3.6, fiber: 2.2, category: 'warzywa' },
+  { name: 'Kalafior', unit: 'g', kcal: 25, fat: 0.3, protein: 1.9, carbs: 5, fiber: 2, category: 'warzywa' },
+  { name: 'Cukinia', unit: 'g', kcal: 17, fat: 0.3, protein: 1.2, carbs: 3.1, fiber: 1, category: 'warzywa' },
+  { name: 'Bakłażan', unit: 'g', kcal: 25, fat: 0.2, protein: 1, carbs: 5.9, fiber: 3, category: 'warzywa' },
+  { name: 'Buraki (gotowane)', unit: 'g', kcal: 44, fat: 0.2, protein: 1.7, carbs: 10, fiber: 2, category: 'warzywa' },
+  { name: 'Fasolka szparagowa', unit: 'g', kcal: 31, fat: 0.2, protein: 1.8, carbs: 7, fiber: 3.4, category: 'warzywa' },
+  { name: 'Rzodkiewka', unit: 'g', kcal: 16, fat: 0.1, protein: 0.7, carbs: 3.4, fiber: 1.6, category: 'warzywa' },
+  { name: 'Pieczarki', unit: 'g', kcal: 22, fat: 0.3, protein: 3.1, carbs: 3.3, fiber: 1, category: 'warzywa' },
+  { name: 'Kukurydza (z puszki)', unit: 'g', kcal: 86, fat: 1.2, protein: 3, carbs: 19, fiber: 2, category: 'warzywa' },
+
+  // OWOCE
+  { name: 'Jabłko', unit: 'g', kcal: 52, fat: 0.2, protein: 0.3, carbs: 14, fiber: 2.4, sugars: 10.4, category: 'owoce' },
+  { name: 'Banan', unit: 'g', kcal: 89, fat: 0.3, protein: 1.1, carbs: 23, fiber: 2.6, sugars: 12.2, category: 'owoce' },
+  { name: 'Gruszka', unit: 'g', kcal: 57, fat: 0.1, protein: 0.4, carbs: 15, fiber: 3.1, sugars: 9.8, category: 'owoce' },
+  { name: 'Pomarańcza', unit: 'g', kcal: 47, fat: 0.1, protein: 0.9, carbs: 12, fiber: 2.4, sugars: 9.4, category: 'owoce' },
+  { name: 'Mandarynka', unit: 'g', kcal: 53, fat: 0.3, protein: 0.8, carbs: 13, fiber: 1.8, sugars: 10.6, category: 'owoce' },
+  { name: 'Cytryna', unit: 'g', kcal: 29, fat: 0.3, protein: 1.1, carbs: 9, fiber: 2.8, sugars: 2.5, category: 'owoce' },
+  { name: 'Truskawki', unit: 'g', kcal: 32, fat: 0.3, protein: 0.7, carbs: 7.7, fiber: 2, sugars: 4.9, category: 'owoce' },
+  { name: 'Maliny', unit: 'g', kcal: 52, fat: 0.7, protein: 1.2, carbs: 12, fiber: 6.5, sugars: 4.4, category: 'owoce' },
+  { name: 'Jagody', unit: 'g', kcal: 57, fat: 0.3, protein: 0.7, carbs: 14, fiber: 2.4, sugars: 9.7, category: 'owoce' },
+  { name: 'Borówki', unit: 'g', kcal: 57, fat: 0.3, protein: 0.7, carbs: 14, fiber: 2.4, sugars: 10, category: 'owoce' },
+  { name: 'Winogrona', unit: 'g', kcal: 69, fat: 0.2, protein: 0.7, carbs: 18, fiber: 0.9, sugars: 16, category: 'owoce' },
+  { name: 'Kiwi', unit: 'g', kcal: 61, fat: 0.5, protein: 1.1, carbs: 15, fiber: 3, sugars: 9, category: 'owoce' },
+  { name: 'Awokado', unit: 'g', kcal: 160, fat: 15, protein: 2, carbs: 9, fiber: 7, sugars: 0.7, category: 'owoce' },
+  { name: 'Arbuz', unit: 'g', kcal: 30, fat: 0.2, protein: 0.6, carbs: 7.6, fiber: 0.4, sugars: 6.2, category: 'owoce' },
+  { name: 'Ananas', unit: 'g', kcal: 50, fat: 0.1, protein: 0.5, carbs: 13, fiber: 1.4, sugars: 10, category: 'owoce' },
+  { name: 'Brzoskwinia', unit: 'g', kcal: 39, fat: 0.3, protein: 0.9, carbs: 9.5, fiber: 1.5, sugars: 8.4, category: 'owoce' },
+  { name: 'Nektarynka', unit: 'g', kcal: 44, fat: 0.3, protein: 1.1, carbs: 11, fiber: 1.7, sugars: 8.5, category: 'owoce' },
+  { name: 'Śliwka', unit: 'g', kcal: 46, fat: 0.3, protein: 0.7, carbs: 11, fiber: 1.4, sugars: 9.9, category: 'owoce' },
+  { name: 'Wiśnie', unit: 'g', kcal: 50, fat: 0.3, protein: 1, carbs: 12, fiber: 1.6, sugars: 8, category: 'owoce' },
+  { name: 'Mango', unit: 'g', kcal: 60, fat: 0.4, protein: 0.8, carbs: 15, fiber: 1.6, sugars: 13.7, category: 'owoce' },
+  { name: 'Granat', unit: 'g', kcal: 83, fat: 1.2, protein: 1.7, carbs: 19, fiber: 4, sugars: 14, category: 'owoce' },
+
+  // ZBOŻA / KASZE
+  { name: 'Ryż biały (suchy)', unit: 'g', kcal: 365, fat: 0.7, protein: 7, carbs: 80, fiber: 1.3, category: 'zboza' },
+  { name: 'Ryż brązowy (suchy)', unit: 'g', kcal: 370, fat: 2.7, protein: 7.5, carbs: 77, fiber: 3.5, category: 'zboza' },
+  { name: 'Ryż basmati (suchy)', unit: 'g', kcal: 350, fat: 0.5, protein: 8, carbs: 78, fiber: 2, category: 'zboza' },
+  { name: 'Makaron pszenny (suchy)', unit: 'g', kcal: 360, fat: 1.5, protein: 12, carbs: 73, fiber: 3, category: 'zboza' },
+  { name: 'Makaron pełnoziarnisty', unit: 'g', kcal: 350, fat: 2.5, protein: 14, carbs: 67, fiber: 8, category: 'zboza' },
+  { name: 'Kasza gryczana (sucha)', unit: 'g', kcal: 340, fat: 3.4, protein: 13, carbs: 72, fiber: 6, category: 'zboza' },
+  { name: 'Kasza jaglana (sucha)', unit: 'g', kcal: 360, fat: 4, protein: 11, carbs: 73, fiber: 3.8, category: 'zboza' },
+  { name: 'Kasza pęczak (sucha)', unit: 'g', kcal: 340, fat: 1.2, protein: 9, carbs: 73, fiber: 6, category: 'zboza' },
+  { name: 'Płatki owsiane', unit: 'g', kcal: 380, fat: 7, protein: 13, carbs: 67, fiber: 10, category: 'zboza' },
+  { name: 'Płatki kukurydziane', unit: 'g', kcal: 370, fat: 1, protein: 7, carbs: 84, fiber: 3, sugars: 8, category: 'zboza' },
+  { name: 'Müsli', unit: 'g', kcal: 380, fat: 8, protein: 10, carbs: 67, fiber: 8, category: 'zboza' },
+  { name: 'Mąka pszenna', unit: 'g', kcal: 340, fat: 1, protein: 10, carbs: 73, fiber: 2.7, category: 'zboza' },
+  { name: 'Quinoa (sucha)', unit: 'g', kcal: 368, fat: 6, protein: 14, carbs: 64, fiber: 7, category: 'zboza' },
+  { name: 'Bułka tarta', unit: 'g', kcal: 395, fat: 5, protein: 13, carbs: 73, fiber: 4, category: 'zboza' },
+
+  // STRĄCZKOWE
+  { name: 'Soczewica czerwona (sucha)', unit: 'g', kcal: 350, fat: 1, protein: 24, carbs: 60, fiber: 11, category: 'straczkowe' },
+  { name: 'Soczewica zielona (sucha)', unit: 'g', kcal: 340, fat: 1, protein: 26, carbs: 60, fiber: 11, category: 'straczkowe' },
+  { name: 'Ciecierzyca (z puszki)', unit: 'g', kcal: 120, fat: 2, protein: 7, carbs: 19, fiber: 5, category: 'straczkowe' },
+  { name: 'Fasola czerwona (z puszki)', unit: 'g', kcal: 95, fat: 0.5, protein: 7, carbs: 17, fiber: 6, category: 'straczkowe' },
+  { name: 'Fasola biała (z puszki)', unit: 'g', kcal: 100, fat: 0.5, protein: 6, carbs: 18, fiber: 5.5, category: 'straczkowe' },
+  { name: 'Tofu', unit: 'g', kcal: 76, fat: 4.8, protein: 8, carbs: 1.9, fiber: 0.3, category: 'straczkowe' },
+
+  // ORZECHY I NASIONA
+  { name: 'Migdały', unit: 'g', kcal: 580, fat: 50, protein: 21, carbs: 22, fiber: 12, category: 'orzechy' },
+  { name: 'Orzechy włoskie', unit: 'g', kcal: 650, fat: 65, protein: 15, carbs: 14, fiber: 7, category: 'orzechy' },
+  { name: 'Orzechy nerkowca', unit: 'g', kcal: 555, fat: 44, protein: 18, carbs: 30, fiber: 3, category: 'orzechy' },
+  { name: 'Orzechy laskowe', unit: 'g', kcal: 630, fat: 60, protein: 15, carbs: 17, fiber: 10, category: 'orzechy' },
+  { name: 'Pistacje', unit: 'g', kcal: 560, fat: 45, protein: 20, carbs: 28, fiber: 10, category: 'orzechy' },
+  { name: 'Masło orzechowe', unit: 'g', kcal: 600, fat: 50, protein: 25, carbs: 20, fiber: 6, category: 'orzechy' },
+  { name: 'Nasiona chia', unit: 'g', kcal: 485, fat: 31, protein: 17, carbs: 42, fiber: 34, category: 'orzechy' },
+  { name: 'Słonecznik łuskany', unit: 'g', kcal: 585, fat: 51, protein: 21, carbs: 20, fiber: 9, category: 'orzechy' },
+  { name: 'Pestki dyni', unit: 'g', kcal: 559, fat: 49, protein: 30, carbs: 11, fiber: 6, category: 'orzechy' },
+  { name: 'Siemię lniane', unit: 'g', kcal: 534, fat: 42, protein: 18, carbs: 29, fiber: 27, category: 'orzechy' },
+
+  // TŁUSZCZE
+  { name: 'Oliwa z oliwek', unit: 'ml', kcal: 884, fat: 100, protein: 0, carbs: 0, fiber: 0, category: 'tluszcze' },
+  { name: 'Olej rzepakowy', unit: 'ml', kcal: 884, fat: 100, protein: 0, carbs: 0, fiber: 0, category: 'tluszcze' },
+  { name: 'Olej kokosowy', unit: 'ml', kcal: 890, fat: 99, protein: 0, carbs: 0, fiber: 0, category: 'tluszcze' },
+  { name: 'Olej lniany', unit: 'ml', kcal: 884, fat: 100, protein: 0, carbs: 0, fiber: 0, category: 'tluszcze' },
+  { name: 'Smalec', unit: 'g', kcal: 900, fat: 100, protein: 0, carbs: 0, fiber: 0, category: 'tluszcze' },
+  { name: 'Margaryna', unit: 'g', kcal: 720, fat: 80, protein: 0.2, carbs: 0.4, fiber: 0, category: 'tluszcze' },
+
+  // SŁODYCZE I PRZEKĄSKI
+  { name: 'Czekolada mleczna', unit: 'g', kcal: 535, fat: 30, protein: 7, carbs: 60, fiber: 3, sugars: 55, category: 'slodycze' },
+  { name: 'Czekolada gorzka 70%', unit: 'g', kcal: 590, fat: 43, protein: 8, carbs: 46, fiber: 11, sugars: 24, category: 'slodycze' },
+  { name: 'Miód', unit: 'g', kcal: 304, fat: 0, protein: 0.3, carbs: 82, fiber: 0.2, sugars: 82, category: 'slodycze' },
+  { name: 'Cukier biały', unit: 'g', kcal: 387, fat: 0, protein: 0, carbs: 100, fiber: 0, sugars: 100, category: 'slodycze' },
+  { name: 'Snickers', unit: 'g', kcal: 488, fat: 24, protein: 8, carbs: 60, fiber: 2, sugars: 52, category: 'slodycze' },
+  { name: 'Lody waniliowe', unit: 'g', kcal: 207, fat: 11, protein: 3.5, carbs: 24, fiber: 0.7, sugars: 21, category: 'slodycze' },
+  { name: 'Pączek z dżemem', unit: 'g', kcal: 395, fat: 22, protein: 5, carbs: 45, fiber: 1.5, sugars: 20, category: 'slodycze' },
+  { name: 'Wafelek Prince Polo', unit: 'g', kcal: 545, fat: 31, protein: 6, carbs: 60, fiber: 1.5, sugars: 45, category: 'slodycze' },
+  { name: 'Sernik', unit: 'g', kcal: 320, fat: 21, protein: 8, carbs: 25, fiber: 0.5, sugars: 18, category: 'slodycze' },
+  { name: 'Drożdżówka z serem', unit: 'g', kcal: 320, fat: 12, protein: 8, carbs: 45, fiber: 1.5, sugars: 18, category: 'slodycze' },
+
+  // NAPOJE
+  { name: 'Woda', unit: 'ml', kcal: 0, fat: 0, protein: 0, carbs: 0, fiber: 0, category: 'napoje' },
+  { name: 'Coca-Cola', unit: 'ml', kcal: 42, fat: 0, protein: 0, carbs: 10.6, fiber: 0, sugars: 10.6, category: 'napoje' },
+  { name: 'Coca-Cola Zero', unit: 'ml', kcal: 0.3, fat: 0, protein: 0, carbs: 0, fiber: 0, category: 'napoje' },
+  { name: 'Sprite', unit: 'ml', kcal: 38, fat: 0, protein: 0, carbs: 9.3, fiber: 0, sugars: 9.3, category: 'napoje' },
+  { name: 'Red Bull', unit: 'ml', kcal: 46, fat: 0, protein: 0, carbs: 11, fiber: 0, sugars: 11, category: 'napoje' },
+  { name: 'Sok pomarańczowy', unit: 'ml', kcal: 45, fat: 0.2, protein: 0.7, carbs: 10, fiber: 0.2, sugars: 8.4, category: 'napoje' },
+  { name: 'Sok jabłkowy', unit: 'ml', kcal: 46, fat: 0.1, protein: 0.1, carbs: 11, fiber: 0.2, sugars: 10, category: 'napoje' },
+  { name: 'Kawa czarna (bez cukru)', unit: 'ml', kcal: 2, fat: 0, protein: 0.1, carbs: 0, fiber: 0, category: 'napoje' },
+  { name: 'Kawa z mlekiem', unit: 'ml', kcal: 25, fat: 1, protein: 1.4, carbs: 2.5, fiber: 0, category: 'napoje' },
+  { name: 'Herbata czarna', unit: 'ml', kcal: 1, fat: 0, protein: 0, carbs: 0.3, fiber: 0, category: 'napoje' },
+  { name: 'Piwo jasne (5%)', unit: 'ml', kcal: 43, fat: 0, protein: 0.5, carbs: 3.6, fiber: 0, category: 'napoje' },
+  { name: 'Wino czerwone wytrawne', unit: 'ml', kcal: 85, fat: 0, protein: 0.1, carbs: 2.6, fiber: 0, category: 'napoje' },
+  { name: 'Wódka 40%', unit: 'ml', kcal: 235, fat: 0, protein: 0, carbs: 0, fiber: 0, category: 'napoje' },
+  { name: 'Mleko roślinne owsiane', unit: 'ml', kcal: 47, fat: 1.5, protein: 1, carbs: 7, fiber: 0.8, sugars: 4, category: 'napoje' },
+  { name: 'Mleko migdałowe (niesłodzone)', unit: 'ml', kcal: 13, fat: 1.1, protein: 0.4, carbs: 0.3, fiber: 0.3, category: 'napoje' },
+
+  // FAST FOOD
+  { name: 'Pizza Margherita', unit: 'g', kcal: 240, fat: 9, protein: 11, carbs: 30, fiber: 2, category: 'fast_food' },
+  { name: 'Pizza Pepperoni', unit: 'g', kcal: 285, fat: 13, protein: 12, carbs: 30, fiber: 2, category: 'fast_food' },
+  { name: 'Kebab w bułce', unit: 'g', kcal: 220, fat: 11, protein: 12, carbs: 18, fiber: 1.5, category: 'fast_food' },
+  { name: 'Frytki', unit: 'g', kcal: 290, fat: 14, protein: 3.5, carbs: 39, fiber: 3.5, category: 'fast_food' },
+  { name: 'Hamburger', unit: 'g', kcal: 250, fat: 11, protein: 13, carbs: 24, fiber: 1.5, category: 'fast_food' },
+  { name: 'Cheeseburger', unit: 'g', kcal: 290, fat: 14, protein: 15, carbs: 25, fiber: 1.5, category: 'fast_food' },
+  { name: 'Nuggetsy z kurczaka', unit: 'g', kcal: 295, fat: 18, protein: 15, carbs: 18, fiber: 1, category: 'fast_food' },
+  { name: 'Hot dog', unit: 'g', kcal: 250, fat: 15, protein: 10, carbs: 20, fiber: 1, category: 'fast_food' },
+  { name: 'Zapiekanka', unit: 'g', kcal: 220, fat: 9, protein: 8, carbs: 28, fiber: 2, category: 'fast_food' },
+
+  // GOTOWE DANIA
+  { name: 'Pierogi ruskie', unit: 'g', kcal: 215, fat: 7, protein: 6, carbs: 32, fiber: 1.5, category: 'gotowe' },
+  { name: 'Pierogi z mięsem', unit: 'g', kcal: 230, fat: 8, protein: 9, carbs: 30, fiber: 1.5, category: 'gotowe' },
+  { name: 'Naleśniki z serem', unit: 'g', kcal: 200, fat: 6, protein: 8, carbs: 28, fiber: 0.8, category: 'gotowe' },
+  { name: 'Kotlet schabowy', unit: 'g', kcal: 290, fat: 18, protein: 22, carbs: 10, fiber: 0.5, category: 'gotowe' },
+  { name: 'Kotlet mielony', unit: 'g', kcal: 250, fat: 16, protein: 18, carbs: 8, fiber: 0.5, category: 'gotowe' },
+  { name: 'Sałatka jarzynowa', unit: 'g', kcal: 130, fat: 8, protein: 2.5, carbs: 12, fiber: 2, category: 'gotowe' },
+  { name: 'Sałatka grecka', unit: 'g', kcal: 110, fat: 8, protein: 4, carbs: 5, fiber: 1.5, category: 'gotowe' },
+  { name: 'Bigos', unit: 'g', kcal: 140, fat: 9, protein: 8, carbs: 6, fiber: 2.5, category: 'gotowe' },
+  { name: 'Gołąbki w sosie pomidorowym', unit: 'g', kcal: 110, fat: 5, protein: 6, carbs: 11, fiber: 1.5, category: 'gotowe' },
+  { name: 'Zupa pomidorowa z ryżem', unit: 'g', kcal: 60, fat: 2, protein: 1.5, carbs: 8, fiber: 0.5, category: 'gotowe' },
+  { name: 'Rosół z makaronem', unit: 'g', kcal: 50, fat: 2, protein: 3, carbs: 5, fiber: 0.3, category: 'gotowe' },
+  { name: 'Żurek', unit: 'g', kcal: 70, fat: 4, protein: 3, carbs: 6, fiber: 0.5, category: 'gotowe' },
+  { name: 'Leczo z kiełbasą', unit: 'g', kcal: 110, fat: 7, protein: 5, carbs: 7, fiber: 2, category: 'gotowe' },
+  { name: 'Ryż z kurczakiem (gotowe danie)', unit: 'g', kcal: 165, fat: 5, protein: 11, carbs: 19, fiber: 1, category: 'gotowe' },
+  { name: 'Spaghetti bolognese', unit: 'g', kcal: 150, fat: 5, protein: 8, carbs: 18, fiber: 1.5, category: 'gotowe' },
+];
+
+export async function seedDatabase(): Promise<{ added: number }> {
+  const count = await db.foods.count();
+  if (count > 0) return { added: 0 };
+  const now = Date.now();
+  await db.foods.bulkAdd(
+    SEED_FOODS.map((f) => ({
+      ...f,
+      id: crypto.randomUUID(),
+      is_custom: false,
+      is_favorite: false,
+      created_at: now,
+    })),
+  );
+  return { added: SEED_FOODS.length };
+}

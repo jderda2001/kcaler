@@ -1,0 +1,35 @@
+{
+  "name": "Kcal Tracker",
+  "short_name": "Kcal",
+  "description": "Liczenie kalorii i makro — szybko, bez konta, offline.",
+  "lang": "pl-PL",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFFFFF",
+  "theme_color": "#0A0A0A",
+  "categories": ["health", "lifestyle", "food"],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Dodaj jedzenie",
+      "short_name": "Dodaj",
+      "description": "Szybko dodaj produkt",
+      "url": "/add",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Historia",
+      "short_name": "Historia",
+      "description": "Podgląd ostatnich dni",
+      "url": "/history",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ]
+}

@@ -36,6 +36,12 @@ yarn-error.log*
 # vercel
 .vercel
 
+# capacitor / ios native projects (mogą zawierać duże binarki — generujemy lokalnie)
+/ios/App/Pods
+/ios/App/build
+/ios/DerivedData
+*.xcuserstate
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
