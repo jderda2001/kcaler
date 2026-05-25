@@ -19,7 +19,6 @@ interface Props {
   onAddCustom?: () => void;
   onEscape?: () => void;
   showActions?: boolean;
-  autoFocus?: boolean;
 }
 
 type ListTab = 'recent' | 'favorites' | 'all';
@@ -37,7 +36,6 @@ export function FoodList({
   onAddCustom,
   onEscape,
   showActions = true,
-  autoFocus,
 }: Props) {
   const [query, setQuery] = useState('');
   const [tab, setTab] = useState<ListTab>('recent');
@@ -93,7 +91,6 @@ export function FoodList({
         <div className="relative">
           <Search className="text-muted-foreground pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" />
           <Input
-            autoFocus={autoFocus}
             placeholder={T.search_placeholder}
             value={query}
             onChange={(e) => setQuery(e.target.value)}

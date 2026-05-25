@@ -52,7 +52,6 @@ export function FoodSearchSheet({ open, onOpenChange, initialMeal, date, onLogge
           </div>
           <div className="flex-1 overflow-hidden">
             <FoodList
-              autoFocus
               onPickFood={setPicked}
               onScan={() => setSub({ kind: 'scan' })}
               onAddCustom={() => setSub({ kind: 'form' })}

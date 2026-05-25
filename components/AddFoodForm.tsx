@@ -135,7 +135,6 @@ export function AddFoodForm({ initial, badge, onSaved, onCancel }: Props) {
             placeholder="np. Pasta tahini"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            autoFocus={!initial?.name}
           />
         </div>
 
