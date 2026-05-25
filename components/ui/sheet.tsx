@@ -90,17 +90,24 @@ export const SheetContent = React.forwardRef<
     }
   }
 
-  const fullHeightStyle: React.CSSProperties =
-    side === 'full' ? { height: 'var(--vvh, 100dvh)' } : {};
+  // For full-screen sheet: anchor to top + bottom-of-visible-viewport.
+  // `--keyboard-inset` is set by ViewportTracker to `innerHeight - visualViewport.height`
+  // so the sheet's bottom edge sits just above the iOS on-screen keyboard.
+  const fullScreenStyle: React.CSSProperties =
+    side === 'full' ? { top: 0, bottom: 'var(--keyboard-inset, 0px)' } : {};
 
-  const transformStyle: React.CSSProperties = draggable && dragY > 0
-    ? {
-        transform: `translate(-50%, ${dragY}px)`,
-        transition: dragging ? 'none' : 'transform 300ms cubic-bezier(0.2, 0.8, 0.2, 1)',
-      }
-    : {};
+  const bottomSheetStyle: React.CSSProperties =
+    side === 'bottom' ? { bottom: 'var(--keyboard-inset, 0px)' } : {};
 
-  const mergedStyle = { ...fullHeightStyle, ...transformStyle };
+  const transformStyle: React.CSSProperties =
+    draggable && dragY > 0
+      ? {
+          transform: `translate(-50%, ${dragY}px)`,
+          transition: dragging ? 'none' : 'transform 300ms cubic-bezier(0.2, 0.8, 0.2, 1)',
+        }
+      : {};
+
+  const mergedStyle = { ...fullScreenStyle, ...bottomSheetStyle, ...transformStyle };
 
   return (
     <SheetPortal>
